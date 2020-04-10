@@ -141,8 +141,10 @@ void malloc_zone_enumerator(task_t task, void *context, unsigned type, vm_range_
 
 - (void)allObjectsOfClass:(Class)cls includeSubclass:(BOOL)shouldIncludeSubclasses performBlock:(void (^)(id))block {
     NSSet *results = [self allObjectsOfClass:cls includeSubclass:shouldIncludeSubclasses];
-    for(id i in results)
-        block(i);
+    [results enumerateObjectsUsingBlock:^(id obj, BOOL *stop){
+        block(obj);
+        *stop = NO;
+    }];
 }
 
 - (void)allObjectsOfClassName:(NSString *)className includeSubclass:(BOOL)shouldIncludeSubclasses performBlock:(void (^)(id))block {
