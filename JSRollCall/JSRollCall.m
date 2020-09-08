@@ -90,7 +90,7 @@ void malloc_zone_enumerator(task_t task, void *context, unsigned type, vm_range_
 - (void)initCallbackCtx:(rc_ctx_t *)ctx {
     *ctx = (rc_ctx_t)calloc(1, sizeof(struct rc_ctx));
     int classCount = objc_getClassList(NULL, 0);
-    CFMutableSetRef set = CFSetCreateMutable(0, classCount, NULL);
+    CFMutableSetRef set = CFSetCreateMutable(kCFAllocatorDefault, classCount, NULL);
     Class *classes = (__unsafe_unretained Class *)malloc(sizeof(Class) * classCount);
     objc_getClassList(classes, classCount);
     
@@ -106,6 +106,8 @@ void malloc_zone_enumerator(task_t task, void *context, unsigned type, vm_range_
 }
 
 - (void)destroyCallbackCtx:(rc_ctx_t)ctx {
+    CFRelease(ctx->results);
+    CFRelease(ctx->classesSet);
     free(ctx);
 }
 
