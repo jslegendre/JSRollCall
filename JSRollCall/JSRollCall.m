@@ -99,6 +99,7 @@ void malloc_zone_enumerator(task_t task, void *context, unsigned type, vm_range_
         CFSetAddValue(set, (__bridge const void *)(cls));
     }
     
+    free(classes);
     (*ctx)->results = (CFMutableSetRef)CFSetCreateMutable(0, MAX_RESULTS, NULL);
     (*ctx)->classesSet = set;
     (*ctx)->includeSubclass = false;
