@@ -143,6 +143,7 @@ void malloc_zone_enumerator(task_t task, void *context, unsigned type, vm_range_
 }
 
 - (void)allObjectsOfClass:(Class)cls includeSubclass:(BOOL)shouldIncludeSubclasses performBlock:(void (^)(id))block {
+    if (!cls) return;
     dispatch_async(dispatch_get_main_queue(), ^{
         NSSet *results = [self allObjectsOfClass:cls includeSubclass:shouldIncludeSubclasses];
         [results enumerateObjectsUsingBlock:^(id obj, BOOL *stop){
