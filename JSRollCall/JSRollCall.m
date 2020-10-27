@@ -65,13 +65,11 @@ void malloc_zone_enumerator(task_t task, void *context, unsigned type, vm_range_
             continue;
         }
         
-        id obj = (__bridge id)(void *)potentialObject;
-        
-        if ([obj isProxy] && strchr((char*)[className UTF8String], '.') == 0)
+        if ([(__bridge id)(void *)potentialObject isProxy] && strchr((char*)[className UTF8String], '.') == 0)
             continue;
         
         
-        if (![obj respondsToSelector:@selector(description)])
+        if (![(__bridge id)(void *)potentialObject respondsToSelector:@selector(description)])
             continue;
         
         if([className isEqualToString:NSStringFromClass(cls)] ||
